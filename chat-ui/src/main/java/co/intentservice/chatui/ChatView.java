@@ -32,6 +32,7 @@ import co.intentservice.chatui.models.ChatMessage;
 import co.intentservice.chatui.models.ChatMessage.Type;
 import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
 import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
+import hani.momanii.supernova_emoji_library.Helper.EmojiconTextView;
 
 /**
  * Created by timi on 17/11/2015.
@@ -495,7 +496,7 @@ public class ChatView extends RelativeLayout {
         class ViewHolder {
             View row;
             CardView bubble;
-            TextView messageTextView;
+            EmojiconTextView messageTextView;
             TextView timestampTextView;
 
             private ViewHolder(View convertView) {
@@ -505,7 +506,7 @@ public class ChatView extends RelativeLayout {
 
             private TextView getMessageTextView() {
                 if (messageTextView == null) {
-                    messageTextView = (TextView) row.findViewById(R.id.message_text_view);
+                    messageTextView = (EmojiconTextView) row.findViewById(R.id.message_text_view);
                 }
                 return messageTextView;
             }
