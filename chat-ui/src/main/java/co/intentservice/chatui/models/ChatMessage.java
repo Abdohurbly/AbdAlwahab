@@ -48,7 +48,7 @@ public class ChatMessage {
 
         return timeDifference < oneDayInMillis
                 ? DateFormat.format("hh:mm a", timestamp).toString()
-                : DateFormat.format("dd MMM - hh:mm a", timestamp).toString();
+                : DateFormat.format("MMM-d, hh:mm :aa", timestamp).toString();
     }
 
     public enum Type {
