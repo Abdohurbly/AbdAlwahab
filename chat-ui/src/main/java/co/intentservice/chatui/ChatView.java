@@ -465,7 +465,7 @@ public class ChatView extends RelativeLayout {
             }
 
             holder.getMessageTextView().setText(chatMessages.get(position).getMessage());
-            holder.getTimestampTextView().setText(chatMessages.get(position).getFormattedTime());
+            holder.getTimestampTextView().setText(chatMessages.get(position).getTime());
             holder.getChatBubble().setCardElevation(bubbleElevation);
             holder.setBackground(type);
 

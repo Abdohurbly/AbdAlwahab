@@ -37,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("Keyboard", "close");
             }
         });
-
+        String time = "2017-06-8 ,11:25 am";
         ChatView chatView = (ChatView) findViewById(R.id.chat_view);
-        chatView.addMessage(new ChatMessage("Message received", System.currentTimeMillis(), ChatMessage.Type.RECEIVED));
+        chatView.addMessage(new ChatMessage("Message received", time, ChatMessage.Type.RECEIVED));
         chatView.setOnSentMessageListener(new ChatView.OnSentMessageListener() {
             @Override
             public boolean sendMessage(ChatMessage chatMessage) {
