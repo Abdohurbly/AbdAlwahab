@@ -364,6 +364,9 @@ public class ChatView extends RelativeLayout {
             chatViewListAdapter.addMessage(chatMessage);
             emojiconEditText.setText("");
         }
+        else {
+            emojiconEditText.setText("");
+        }
     }
 
     public void addMessage(ChatMessage chatMessage) {

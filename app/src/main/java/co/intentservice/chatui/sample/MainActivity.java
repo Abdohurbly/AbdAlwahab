@@ -38,12 +38,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         String time = "2017-06-8 ,11:25 am";
-        ChatView chatView = (ChatView) findViewById(R.id.chat_view);
+        final ChatView chatView = (ChatView) findViewById(R.id.chat_view);
         chatView.addMessage(new ChatMessage("Message received", time, ChatMessage.Type.RECEIVED));
         chatView.setOnSentMessageListener(new ChatView.OnSentMessageListener() {
             @Override
             public boolean sendMessage(ChatMessage chatMessage) {
-                return true;
+          String date= "04:45 am";
+           String msg  =   chatMessage.getMessage();
+                chatView.addMessage(new ChatMessage(msg,date, ChatMessage.Type.SENT));
+                return false;
             }
         });
 
