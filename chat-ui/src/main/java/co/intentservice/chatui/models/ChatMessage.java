@@ -1,5 +1,6 @@
 package co.intentservice.chatui.models;
 
+import android.graphics.Bitmap;
 import android.text.format.DateFormat;
 
 import java.util.concurrent.TimeUnit;
@@ -9,6 +10,17 @@ public class ChatMessage {
     private long timestamp;
     private Type type;
     private String time;
+
+
+    private Bitmap bitmap;
+
+    public ChatMessage(String message, long timestamp, Type type, String time, Bitmap bitmap) {
+        this.message = message;
+        this.timestamp = timestamp;
+        this.type = type;
+        this.time = time;
+        this.bitmap = bitmap;
+    }
 
     public ChatMessage(String message, long timestamp, Type type){
         this.message = message;
@@ -64,6 +76,10 @@ public class ChatMessage {
                 : DateFormat.format("MMM-d, hh:mm :aa", timestamp).toString();
         //Add Test
     }
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
     public String timeFromString(String s)
     {
 
@@ -73,4 +89,5 @@ public class ChatMessage {
     public enum Type {
         SENT, RECEIVED
     }
+
 }

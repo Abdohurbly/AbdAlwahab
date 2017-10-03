@@ -471,7 +471,7 @@ public class ChatView extends RelativeLayout {
             holder.getTimestampTextView().setText(chatMessages.get(position).getTime());
             holder.getChatBubble().setCardElevation(bubbleElevation);
             holder.setBackground(type);
-
+            holder.seenImage.setImageBitmap(chatMessages.get(position).getBitmap());
             return convertView;
         }
 
@@ -501,10 +501,12 @@ public class ChatView extends RelativeLayout {
             CardView bubble;
             EmojiconTextView messageTextView;
             TextView timestampTextView;
-
+            ImageView seenImage;
             private ViewHolder(View convertView) {
                 row = convertView;
                 bubble = (CardView) convertView.findViewById(R.id.bubble);
+                seenImage = (ImageView) convertView.findViewById(R.id.imageView);
+
             }
 
             private TextView getMessageTextView() {
