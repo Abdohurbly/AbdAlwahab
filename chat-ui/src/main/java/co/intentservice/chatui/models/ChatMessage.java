@@ -76,9 +76,15 @@ public class ChatMessage {
                 : DateFormat.format("MMM-d, hh:mm :aa", timestamp).toString();
         //Add Test
     }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
+
     public Bitmap getBitmap() {
         return bitmap;
     }
+
 
     public String timeFromString(String s)
     {
