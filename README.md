@@ -1,3 +1,5 @@
+# Fork Lib.
+# Abdulwahab Herbli
 # Android Chat UI
 
 This is meant to ease the life of any developer looking to add chat functionality into his/her Android application and wouldn't like to worry so much about setting up the UI.
@@ -9,13 +11,13 @@ This library is still in it's very early stages, but improvements would come ove
 ![Image of Library in action](http://res.cloudinary.com/duswj2lve/image/upload/v1479837904/chatui_k3diqq.png)
 
 ### Version
-v0.1.2
+v1.0.10
 
 ### Installation
 
 Add this to your build.gradle file's dependencies:
 
-    compile 'co.intentservice.android-chat-ui:chat-ui:0.1.1'
+    implementation 'com.github.Abdohurbly:AbdAlwahab:1.0.10'
 
 ## Usage
 Drop the ChatView in your XML layout as is shown below:
@@ -118,24 +120,3 @@ chatView.setTypingListener(new ChatView.TypingListener(){
 });
 ```
 
-### TODO
-This is list of things that are in the works for this library:
-
-# Theming
-- message TextAppearance (sent / received messages)
-- timestamp TextAppearance (sent / received messages)
-- The ability to use an image as the background for the ChatView
-
-# Functionality
-- Ability to use custom item layout
-- Ability to send and recieve multimedia messages like images, embedded locations and even videos.
-- Ability to track and update individual messages (Useful to be able to show delivered/read/unread status or the like)
-
-Of course, additions to this library aren't limited to the above.
-
-### Contributing
-We welcome any and all contributions, code cleanups and feature requests.
-
-1. Check for open issues or open a fresh issue to start a discussion around a feature idea or a bug.
-2. Fork the repository on GitHub to start making your changes to the master branch (or branch off of it).
-3. Send a pull request and bug the maintainer until it gets merged and published. :).
