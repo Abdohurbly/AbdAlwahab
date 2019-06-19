@@ -1,7 +1,9 @@
 package co.intentservice.chatui.sample;
 
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,9 +23,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        emojiconEditText = (EmojiconEditText) findViewById(co.intentservice.chatui.R.id.emojicon_edit_text);
+        emojiconEditText = findViewById(co.intentservice.chatui.R.id.emojicon_edit_text);
         rootView = findViewById(co.intentservice.chatui.R.id.root_view);
-        emojiButton = (ImageView) findViewById(co.intentservice.chatui.R.id.emoji_btn);
+        emojiButton = findViewById(co.intentservice.chatui.R.id.emoji_btn);
         emojIcon = new EmojIconActions(getBaseContext(), rootView, emojiconEditText, emojiButton);
         emojIcon.ShowEmojIcon();
         emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
@@ -38,14 +40,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         String time = "2017-06-8 ,11:25 am";
-        final ChatView chatView = (ChatView) findViewById(R.id.chat_view);
+        final ChatView chatView = findViewById(R.id.chat_view);
         chatView.addMessage(new ChatMessage("Message received", time, ChatMessage.Type.RECEIVED));
         chatView.setOnSentMessageListener(new ChatView.OnSentMessageListener() {
             @Override
             public boolean sendMessage(ChatMessage chatMessage) {
-          String date= "04:45 am";
-           String msg  =   chatMessage.getMessage();
-                chatView.addMessage(new ChatMessage(msg,date, ChatMessage.Type.SENT));
+                String date = "04:45 am";
+                String msg = chatMessage.getMessage();
+                chatView.addMessage(new ChatMessage(msg, date, ChatMessage.Type.SENT));
                 return false;
             }
         });

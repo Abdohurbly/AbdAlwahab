@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+
 import androidx.core.content.ContextCompat;
 import androidx.cardview.widget.CardView;
+
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -75,8 +77,7 @@ public class ChatView extends RelativeLayout {
     private Context context;
 
 
-
-     ChatView(Context context) {
+    ChatView(Context context) {
         this(context, null);
     }
 
@@ -104,10 +105,10 @@ public class ChatView extends RelativeLayout {
 
     private void initializeViews() {
 
-        chatListView = (ListView) findViewById(R.id.chat_list);
-        inputFrame = (CardView) findViewById(R.id.input_frame);
-        emojiconEditText = (EmojiconEditText) findViewById(R.id.emojicon_edit_text);
-        actionsMenu = (FloatingActionsMenu) findViewById(R.id.sendButton);
+        chatListView = findViewById(R.id.chat_list);
+        inputFrame = findViewById(R.id.input_frame);
+        emojiconEditText = findViewById(R.id.emojicon_edit_text);
+        actionsMenu = findViewById(R.id.sendButton);
 
 
     }
@@ -362,8 +363,7 @@ public class ChatView extends RelativeLayout {
         if (onSentMessageListener != null && onSentMessageListener.sendMessage(chatMessage)) {
             chatViewListAdapter.addMessage(chatMessage);
             emojiconEditText.setText("");
-        }
-        else {
+        } else {
             emojiconEditText.setText("");
         }
     }
@@ -460,6 +460,7 @@ public class ChatView extends RelativeLayout {
                         break;
                 }
 
+                assert convertView != null;
                 holder = new ViewHolder(convertView);
                 convertView.setTag(holder);
             } else {
@@ -501,6 +502,7 @@ public class ChatView extends RelativeLayout {
             EmojiconTextView messageTextView;
             TextView timestampTextView;
             ImageView seenImage;
+
             private ViewHolder(View convertView) {
                 row = convertView;
                 bubble = (CardView) convertView.findViewById(R.id.bubble);
