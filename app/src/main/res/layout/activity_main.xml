@@ -13,6 +13,8 @@
 
     <co.intentservice.chatui.ChatView
         android:id="@+id/chat_view"
+        chatview:titleHintText="العنوان هنا"
+        chatview:inputHintText="الرسالة هنا"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         chatview:backgroundColor="@color/off_white"

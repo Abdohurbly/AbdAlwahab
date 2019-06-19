@@ -9,6 +9,7 @@ public class ChatMessage {
     private String message;
     private long timestamp;
     private Type type;
+    private String title;
     private String time;
 
 
@@ -22,13 +23,31 @@ public class ChatMessage {
         this.bitmap = bitmap;
     }
 
-    public ChatMessage(String message, long timestamp, Type type){
+    public ChatMessage(String message, String title, long timestamp, Type type, String time, Bitmap bitmap) {
         this.message = message;
         this.timestamp = timestamp;
         this.type = type;
+        this.time = time;
+        this.bitmap = bitmap;
+        this.title = title;
     }
 
-    public ChatMessage(String message, String time, Type type){
+    public ChatMessage(String message, String title, long timestamp, Type type){
+        this.message = message;
+        this.timestamp = timestamp;
+        this.type = type;
+        this.title = title;
+    }
+
+
+    public ChatMessage(String message, String title, String time, Type type){
+        this.message = message;
+        this.time = time;
+        this.type = type;
+        this.title = title;
+    }
+
+    public ChatMessage(String message,String time, Type type){
         this.message = message;
         this.time = time;
         this.type = type;
@@ -90,6 +109,14 @@ public class ChatMessage {
     {
 
      return s   ;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public enum Type {

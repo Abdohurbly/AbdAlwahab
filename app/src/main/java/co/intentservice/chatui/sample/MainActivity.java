@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import co.intentservice.chatui.ChatView;
@@ -15,6 +16,7 @@ import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
 
 public class MainActivity extends AppCompatActivity {
     EmojiconEditText emojiconEditText;
+    EditText titleText;
     View rootView;
     ImageView emojiButton;
     EmojIconActions emojIcon;
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         emojiconEditText = findViewById(co.intentservice.chatui.R.id.emojicon_edit_text);
         rootView = findViewById(co.intentservice.chatui.R.id.root_view);
         emojiButton = findViewById(co.intentservice.chatui.R.id.emoji_btn);
+        titleText = findViewById(co.intentservice.chatui.R.id.title_edit_text);
         emojIcon = new EmojIconActions(getBaseContext(), rootView, emojiconEditText, emojiButton);
         emojIcon.ShowEmojIcon();
         emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
@@ -41,13 +44,15 @@ public class MainActivity extends AppCompatActivity {
         });
         String time = "2017-06-8 ,11:25 am";
         final ChatView chatView = findViewById(R.id.chat_view);
-        chatView.addMessage(new ChatMessage("Message received", time, ChatMessage.Type.RECEIVED));
+        String title = "Title goes here";
+        chatView.addMessage(new ChatMessage("Message received", title, time, ChatMessage.Type.RECEIVED));
         chatView.setOnSentMessageListener(new ChatView.OnSentMessageListener() {
             @Override
             public boolean sendMessage(ChatMessage chatMessage) {
                 String date = "04:45 am";
+                String title = chatMessage.getTitle();
                 String msg = chatMessage.getMessage();
-                chatView.addMessage(new ChatMessage(msg, date, ChatMessage.Type.SENT));
+                chatView.addMessage(new ChatMessage(msg, title, date, ChatMessage.Type.SENT));
                 return false;
             }
         });

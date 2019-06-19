@@ -27,6 +27,15 @@
             android:padding="8dp"
             android:weightSum="1">
 
+            <TextView
+                android:id="@+id/title_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|left"
+                android:textColor="@color/default_message_color_send"
+                android:textSize="@dimen/default_title_text_size"
+                android:textStyle="bold" />
+
             <hani.momanii.supernova_emoji_library.Helper.EmojiconTextView
                 android:id="@+id/message_text_view"
                 android:layout_width="wrap_content"

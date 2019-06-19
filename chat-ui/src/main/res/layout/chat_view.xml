@@ -4,10 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/root_view"
-
     android:layout_height="match_parent"
     xmlns:emojicon="http://schemas.android.com/apk/res-auto"
-
     android:orientation="vertical">
 
     <ListView
@@ -52,33 +50,59 @@
         app:cardElevation="1dp"
         app:contentPadding="2dp">
 
-        <hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
-            android:id="@+id/emojicon_edit_text"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:background="@null"
-            android:hint="@string/default_input_hint"
-            android:inputType="text"
-            android:maxLines="5"
-            android:minHeight="48dp"
-            emojicon:emojiconSize="28sp"
-            android:paddingBottom="4dp"
-            android:paddingLeft="38dp"
-            android:paddingRight="8dp"
-            android:paddingTop="4dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/main_color_gray"
-            android:textSize="@dimen/default_input_text_size" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/title_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="@null"
+                android:hint="@string/type_title"
+                android:inputType="text"
+                android:maxLines="5"
+                android:minHeight="48dp"
+                android:paddingLeft="38dp"
+                android:paddingTop="4dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="4dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/main_color_gray"
+                android:textSize="@dimen/default_input_text_size" />
+
+            <hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
+                android:id="@+id/emojicon_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="@null"
+                android:hint="@string/default_input_hint"
+                android:inputType="text"
+                android:maxLines="5"
+                android:minHeight="48dp"
+                emojicon:emojiconSize="28sp"
+                android:paddingBottom="4dp"
+                android:paddingLeft="38dp"
+                android:paddingRight="8dp"
+                android:paddingTop="4dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/main_color_gray"
+                android:textSize="@dimen/default_input_text_size" />
+
+        </LinearLayout>
+
         <ImageView
             android:id="@+id/emoji_btn"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
+            android:layout_gravity="bottom"
             android:padding="4dp"
             android:src="@mipmap/smiley">
-
         </ImageView>
     </androidx.cardview.widget.CardView>
 

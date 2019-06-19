@@ -6,9 +6,16 @@
         <attr name="inputBackgroundColor" format="color" />
         <attr name="inputUseEditorAction" format="boolean" />
         <attr name="inputTextAppearance" format="reference" />
+        <attr name="inputHintText" format="string"/>
         <attr name="inputTextSize" format="dimension" />
         <attr name="inputTextColor" format="color" />
         <attr name="inputHintColor" format="color" />
+        <attr name="titleTextAppearance" format="reference"/>
+        <attr name="titleHintText" format="string"/>
+        <attr name="titleTextSize" format="dimension" />
+        <attr name="titleTextColor" format="color" />
+        <attr name="titleHintColor" format="color" />
+        <attr name="hint" format="string"/>
 
         <attr name="sendBtnIcon" format="reference" />
         <attr name="sendBtnIconTint" format="color" />
@@ -39,6 +46,14 @@
         <attr name="inputTextSize" />
         <attr name="inputTextColor" />
         <attr name="inputHintColor" />
+        <attr name="inputHintText" />
+    </declare-styleable>
+
+    <declare-styleable name="ChatViewTitleTextAppearance">
+        <attr name="titleTextSize" />
+        <attr name="titleTextColor" />
+        <attr name="titleHintColor" />
+        <attr name="titleHintText" />
     </declare-styleable>
 
     <declare-styleable name="ChatViewMessageTextAppearance">

@@ -13,6 +13,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -46,6 +47,7 @@ public class ChatView extends RelativeLayout {
     private CardView inputFrame;
     private ListView chatListView;
     EmojiconEditText emojiconEditText;
+    private EditText titleEditText;
     View rootView;
     ImageView emojiButton;
     EmojIconActions emojIcon;
@@ -67,13 +69,15 @@ public class ChatView extends RelativeLayout {
 
     private int inputFrameBackgroundColor, backgroundColor;
     private int inputTextSize, inputTextColor, inputHintColor;
+    private int titleTextSize, titleTextColor, titleHintColor;
+    private String inputHintText, titleHintText;
     private int sendButtonBackgroundTint, sendButtonIconTint;
 
     private float bubbleElevation;
 
     private int bubbleBackgroundRcv, bubbleBackgroundSend; // Drawables cause cardRadius issues. Better to use background color
     private Drawable sendButtonIcon, buttonDrawable;
-    private TypedArray attributes, textAppearanceAttributes;
+    private TypedArray attributes, textAppearanceAttributes, titleAppearanceAttributes;
     private Context context;
 
 
@@ -104,13 +108,11 @@ public class ChatView extends RelativeLayout {
     }
 
     private void initializeViews() {
-
         chatListView = findViewById(R.id.chat_list);
         inputFrame = findViewById(R.id.input_frame);
         emojiconEditText = findViewById(R.id.emojicon_edit_text);
         actionsMenu = findViewById(R.id.sendButton);
-
-
+        titleEditText = findViewById(R.id.title_edit_text);
     }
 
 
@@ -120,6 +122,7 @@ public class ChatView extends RelativeLayout {
         getAttributesForBubbles();
         getAttributesForInputFrame();
         getAttributesForInputText();
+        getAttributesForTitleText();
         getAttributesForSendButton();
         getUseEditorAction();
         attributes.recycle();
@@ -135,6 +138,7 @@ public class ChatView extends RelativeLayout {
         setChatViewBackground();
         setInputFrameAttributes();
         setInputTextAttributes();
+        setTitleTextAttributes();
         setSendButtonAttributes();
         setUseEditorAction();
     }
@@ -144,7 +148,6 @@ public class ChatView extends RelativeLayout {
     }
 
     private void getAttributesForBubbles() {
-
         float dip4 = context.getResources().getDisplayMetrics().density * 4.0f;
         int elevation = attributes.getInt(R.styleable.ChatView_bubbleElevation, ELEVATED);
         bubbleElevation = elevation == ELEVATED ? dip4 : 0;
@@ -152,7 +155,6 @@ public class ChatView extends RelativeLayout {
         bubbleBackgroundRcv = attributes.getColor(R.styleable.ChatView_bubbleBackgroundRcv, ContextCompat.getColor(context, R.color.default_bubble_color_rcv));
         bubbleBackgroundSend = attributes.getColor(R.styleable.ChatView_bubbleBackgroundSend, ContextCompat.getColor(context, R.color.default_bubble_color_send));
     }
-
 
     private void getAttributesForInputFrame() {
         inputFrameBackgroundColor = attributes.getColor(R.styleable.ChatView_inputBackgroundColor, -1);
@@ -173,9 +175,28 @@ public class ChatView extends RelativeLayout {
             setInputTextSize();
             setInputTextColor();
             setInputHintColor();
+            setInputHintText();
             textAppearanceAttributes.recycle();
         }
         overrideTextStylesIfSetIndividually();
+    }
+
+    private void getAttributesForTitleText() {
+        setTitleTextDefaults();
+        if (hasStyleResourceSet()) {
+            setTitleAppearanceAttributes();
+            setTitleTextSize();
+            setTitleTextColor();
+            setTitleHintColor();
+            setTitleHintText();
+            titleAppearanceAttributes.recycle();
+        }
+        overrideTitleStylesIfSetIndividually();
+    }
+
+    private void setTitleAppearanceAttributes() {
+        final int titleAppearanceId = attributes.getResourceId(R.styleable.ChatView_titleTextAppearance, 0);
+        titleAppearanceAttributes = getContext().obtainStyledAttributes(titleAppearanceId, R.styleable.ChatViewTitleTextAppearance);
     }
 
     private void setTextAppearanceAttributes() {
@@ -183,9 +204,17 @@ public class ChatView extends RelativeLayout {
         textAppearanceAttributes = getContext().obtainStyledAttributes(textAppearanceId, R.styleable.ChatViewInputTextAppearance);
     }
 
+    private void setTitleTextAttributes() {
+        titleEditText.setTextColor(titleTextColor);
+        titleEditText.setHintTextColor(titleHintColor);
+        titleEditText.setHint(titleHintText);
+        titleEditText.setTextSize(TypedValue.COMPLEX_UNIT_PX, titleTextSize);
+    }
+
     private void setInputTextAttributes() {
         emojiconEditText.setTextColor(inputTextColor);
         emojiconEditText.setHintTextColor(inputHintColor);
+        emojiconEditText.setHint(inputHintText);
         emojiconEditText.setTextSize(TypedValue.COMPLEX_UNIT_PX, inputTextSize);
     }
 
@@ -219,10 +248,13 @@ public class ChatView extends RelativeLayout {
         return attributes.hasValue(R.styleable.ChatView_inputTextAppearance);
     }
 
+    // Message text
+
     private void setInputTextDefaults() {
         inputTextSize = context.getResources().getDimensionPixelSize(R.dimen.default_input_text_size);
         inputTextColor = ContextCompat.getColor(context, R.color.black);
         inputHintColor = ContextCompat.getColor(context, R.color.main_color_gray);
+        inputHintText = context.getResources().getString(R.string.default_input_hint);
     }
 
     private void setInputTextSize() {
@@ -243,11 +275,63 @@ public class ChatView extends RelativeLayout {
         }
     }
 
+    private void setInputHintText() {
+        if (textAppearanceAttributes.hasValue(R.styleable.ChatView_hint)) {
+            inputHintText = attributes.getString(R.styleable.ChatView_hint);
+        }
+    }
+
+    private boolean hasTitleResourceSet() {
+        return attributes.hasValue(R.styleable.ChatView_titleTextAppearance);
+    }
+
     private void overrideTextStylesIfSetIndividually() {
         inputTextSize = (int) attributes.getDimension(R.styleable.ChatView_inputTextSize, inputTextSize);
         inputTextColor = attributes.getColor(R.styleable.ChatView_inputTextColor, inputTextColor);
         inputHintColor = attributes.getColor(R.styleable.ChatView_inputHintColor, inputHintColor);
+        inputHintText = attributes.getString(R.styleable.ChatView_inputHintText);
     }
+
+    // TitleView
+
+    private void setTitleTextDefaults() {
+        titleTextSize = context.getResources().getDimensionPixelSize(R.dimen.default_input_text_size);
+        titleTextColor = ContextCompat.getColor(context, R.color.black);
+        titleHintColor = ContextCompat.getColor(context, R.color.main_color_gray);
+        titleHintText = context.getResources().getString(R.string.type_title);
+    }
+
+    private void setTitleTextSize() {
+        if (textAppearanceAttributes.hasValue(R.styleable.ChatView_inputTextSize)) {
+            titleTextSize = attributes.getDimensionPixelSize(R.styleable.ChatView_inputTextSize, titleTextSize);
+        }
+    }
+
+    private void setTitleTextColor() {
+        if (textAppearanceAttributes.hasValue(R.styleable.ChatView_inputTextColor)) {
+            titleTextColor = attributes.getColor(R.styleable.ChatView_inputTextColor, titleTextColor);
+        }
+    }
+
+    private void setTitleHintColor() {
+        if (textAppearanceAttributes.hasValue(R.styleable.ChatView_inputHintColor)) {
+            titleHintColor = attributes.getColor(R.styleable.ChatView_inputHintColor, titleHintColor);
+        }
+    }
+
+    private void setTitleHintText() {
+        if (textAppearanceAttributes.hasValue(R.styleable.ChatView_hint)) {
+            titleHintText = attributes.getString(R.styleable.ChatView_hint);
+        }
+    }
+
+    private void overrideTitleStylesIfSetIndividually() {
+        titleTextSize = (int) attributes.getDimension(R.styleable.ChatView_titleTextSize, titleTextSize);
+        titleTextColor = attributes.getColor(R.styleable.ChatView_inputTextColor, titleTextColor);
+        titleHintColor = attributes.getColor(R.styleable.ChatView_inputHintColor, titleHintColor);
+        titleHintText = attributes.getString(R.styleable.ChatView_titleHintText);
+    }
+
 
     private void setupEditorAction() {
         emojiconEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
@@ -258,9 +342,9 @@ public class ChatView extends RelativeLayout {
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
                     long stamp = System.currentTimeMillis();
                     String message = emojiconEditText.getText().toString();
-
+                    String title = titleEditText.getText().toString();
                     if (!TextUtils.isEmpty(message)) {
-                        sendMessage(message, stamp);
+                        sendMessage(message, title, stamp);
                     }
                     return true;
                 }
@@ -282,8 +366,9 @@ public class ChatView extends RelativeLayout {
 
                 long stamp = System.currentTimeMillis();
                 String message = emojiconEditText.getText().toString();
+                String title = titleEditText.getText().toString();
                 if (!TextUtils.isEmpty(message)) {
-                    sendMessage(message, stamp);
+                    sendMessage(message, title, stamp);
                 }
 
             }
@@ -357,14 +442,15 @@ public class ChatView extends RelativeLayout {
         this.onSentMessageListener = onSentMessageListener;
     }
 
-    private void sendMessage(String message, long stamp) {
-
-        ChatMessage chatMessage = new ChatMessage(message, stamp, Type.SENT);
+    private void sendMessage(String message, String title, long stamp) {
+        ChatMessage chatMessage = new ChatMessage(message, title, stamp, Type.SENT);
         if (onSentMessageListener != null && onSentMessageListener.sendMessage(chatMessage)) {
             chatViewListAdapter.addMessage(chatMessage);
             emojiconEditText.setText("");
+            titleEditText.setText("");
         } else {
             emojiconEditText.setText("");
+            titleEditText.setText("");
         }
     }
 
@@ -468,6 +554,12 @@ public class ChatView extends RelativeLayout {
             }
 
             holder.getMessageTextView().setText(chatMessages.get(position).getMessage());
+
+            if (chatMessages.get(position).getTitle().isEmpty()) {
+                holder.getTitleTextView().setVisibility(GONE);
+            } else {
+                holder.getTitleTextView().setText(chatMessages.get(position).getTitle());
+            }
             holder.getTimestampTextView().setText(chatMessages.get(position).getTime());
             holder.getChatBubble().setCardElevation(bubbleElevation);
             holder.setBackground(type);
@@ -501,25 +593,32 @@ public class ChatView extends RelativeLayout {
             CardView bubble;
             EmojiconTextView messageTextView;
             TextView timestampTextView;
+            TextView titleTextView;
             ImageView seenImage;
 
             private ViewHolder(View convertView) {
                 row = convertView;
-                bubble = (CardView) convertView.findViewById(R.id.bubble);
-                seenImage = (ImageView) convertView.findViewById(R.id.imageView);
+                bubble = convertView.findViewById(R.id.bubble);
+                seenImage = convertView.findViewById(R.id.imageView);
+            }
 
+            private TextView getTitleTextView() {
+                if (titleTextView == null) {
+                    titleTextView = row.findViewById(R.id.title_text_view);
+                }
+                return titleTextView;
             }
 
             private TextView getMessageTextView() {
                 if (messageTextView == null) {
-                    messageTextView = (EmojiconTextView) row.findViewById(R.id.message_text_view);
+                    messageTextView = row.findViewById(R.id.message_text_view);
                 }
                 return messageTextView;
             }
 
             private TextView getTimestampTextView() {
                 if (timestampTextView == null) {
-                    timestampTextView = (TextView) row.findViewById(R.id.timestamp_text_view);
+                    timestampTextView = row.findViewById(R.id.timestamp_text_view);
                 }
 
                 return timestampTextView;
@@ -527,7 +626,7 @@ public class ChatView extends RelativeLayout {
 
             private CardView getChatBubble() {
                 if (bubble == null) {
-                    bubble = (CardView) row.findViewById(R.id.bubble);
+                    bubble = row.findViewById(R.id.bubble);
                 }
 
                 return bubble;
