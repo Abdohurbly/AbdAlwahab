@@ -1,7 +1,7 @@
 [![](https://jitpack.io/v/Abdohurbly/AbdAlwahab.svg)](https://jitpack.io/#Abdohurbly/AbdAlwahab)
 
 # Fork Lib.
-# Abdulwahab Herbli && Hisham Siddek
+# Abdulwahab Herbli && Hisham Seddik (HyldenMan)
 # Android Chat UI
 
 A chat UI library with different customization options. Currently it only has a title edit that can be used.
@@ -11,7 +11,7 @@ This is still under development, and more changes will gradually come which woul
 ![Library used](http://res.cloudinary.com/duswj2lve/image/upload/v1479837904/chatui_k3diqq.png)
 
 ### Version
-v2.0.00
+v2.0.1
 
 ### Installation
 
