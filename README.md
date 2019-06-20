@@ -4,13 +4,11 @@
 # Abdulwahab Herbli
 # Android Chat UI
 
-This is meant to ease the life of any developer looking to add chat functionality into his/her Android application and wouldn't like to worry so much about setting up the UI.
+A chat UI library with different customization options. Currently it only has a title edit that can be used.
 
-This library is still in it's very early stages, but improvements would come over time.
+This is still under development, and more changes will gradually come which would include new features such as adding images and files.
 
-**Note**: This is merely a UI library, messages being actually sent and recieved by your application still needs to be implemented.
-
-![Image of Library in action](http://res.cloudinary.com/duswj2lve/image/upload/v1479837904/chatui_k3diqq.png)
+![Library used](http://res.cloudinary.com/duswj2lve/image/upload/v1479837904/chatui_k3diqq.png)
 
 ### Version
 v1.0.10
@@ -33,21 +31,22 @@ Drop the ChatView in your XML layout as is shown below:
 />
 ```
 
-Remember to add this attribute to your root layout.
+You need to add this attribute to your root layout.
 
 ```
 xmlns:chatview="http://schemes.android.com/apk/res-auto"
 ```
 
-And then in your Activity or Fragment you can get the instance of the ChatView by doing:
+Currently there aren't many methods that can be utilized within Java code. However, the view can
+be customized from the XML file. You can still define it in your activity class as follows.
 
 ```
 ChatView chatView = (ChatView) findViewById(R.id.chat_view);
 ```
 
-### Customization
+### Attributes
 
-You can customize the appearance of this view by using the following attributes.
+ChatView has the following attributes:
 
 ```
 chatview:backgroundColor=""
@@ -57,6 +56,15 @@ chatview:inputTextAppearance=""
 chatview:inputTextSize=""
 chatview:inputTextColor=""
 chatview:inputHintColor=""
+chatview:inputHintText=""
+
+chatview:titleBackgroundColor=""
+chatview:titleTextAppearance=""
+chatview:titleTextSize=""
+chatview:titleTextColor=""
+chatview:titleHintColor=""
+chatview:titleHintText=""
+
 chatview:sendBtnIcon="" 
 chatview:sendBtnIconTint=""
 chatview:sendBtnBackgroundTint=""
@@ -69,7 +77,7 @@ chatview:bubbleElevation="" // "flat" or "elevated"
 
 ### Sending messages
 
-You can detect when a user clicks the "send" action button by using the `OnSentMessageListener`.
+`OnSentMessageListener` is used to detect sending messages actions.
 
 ```
 chatView.setOnSentMessageListener(new ChatView.OnSentMessageListener(){
@@ -82,17 +90,16 @@ chatView.setOnSentMessageListener(new ChatView.OnSentMessageListener(){
 ```
 
 
-In the method `sendMessage()`, you can now perform whatever logic  to send messages i.e make an HTTP request or send the message over a socket connection. 
+You can perform your connection in the `sendMessage(ChatMessage chatMessage)` method.
 
-Depending on whatever logic or validation you put in place, you may return `true` or `false`. `true` will update the `ChatView` with the message bubble and `false` will do the opposite.
+The returned value will determine whether the message is sent or not.
 
 ### Receiving messages
 
-You can use the `chatView.addMessage(ChatMessage message)` to add a "received" message to the UI. This obviously should be done after whatever mechanisms you have in place have actually received a message. 
+You can add received messages by using `chatView.addMessage(ChatMessage message)`, or, for multiple
+messages, `chatView.addMessages(ArrayList<ChatMessage> messages)`
 
-You can use this method or `chatView.addMessages(ArrayList<ChatMessage> messages)` to add messages to the UI. 
-
-The side the chat bubble will appear on is determined by the `Type` of the `ChatMessage`.
+Messages will appear to the right or the left depending on the `Type` variable in your `ChatMessage` object.
 
 ### Deleting messages
 
@@ -100,13 +107,18 @@ You can remove messages using `chatView.removeMessage(int position)` or `chatVie
 
 ### The ChatMessage class
 
-`ChatMessage` holds all the relevant data about your message: `String message`, `long timestamp` and `Type type`. `Type` is an enum that can either be `SENT` or `RECEIVED`.
+This class has these instance variables:
+`String title` message title,
+`String message` message body,
+`long timestamp` time this message was sent, and
+`Type type` has values `SENT` or `RECEIVED` which determines the side where the message appears.
 
-It is the `Type` that determines what side of the UI the bubble will appear.
+It is strongly recommended to override this class to provide a model for the sending and receiving
+operations. More on this in future releases
 
 ### Typing Listener
 
-You can detect different states of the user's typing activity by using `TypingListener`.
+This listener is used to perform an action during different typing states.
 
 ```
 chatView.setTypingListener(new ChatView.TypingListener(){
