@@ -69,7 +69,7 @@ public class ChatView extends RelativeLayout {
 
     private int inputFrameBackgroundColor, backgroundColor;
     private int inputTextSize, inputTextColor, inputHintColor;
-    private int titleTextSize, titleTextColor, titleHintColor;
+    private int titleTextSize, titleTextColor, titleHintColor, titleVisibility;
     private String inputHintText, titleHintText;
     private int sendButtonBackgroundTint, sendButtonIconTint;
 
@@ -183,12 +183,13 @@ public class ChatView extends RelativeLayout {
 
     private void getAttributesForTitleText() {
         setTitleTextDefaults();
-        if (hasStyleResourceSet()) {
+        if (hasTitleResourceSet()) {
             setTitleAppearanceAttributes();
             setTitleTextSize();
             setTitleTextColor();
             setTitleHintColor();
             setTitleHintText();
+            setTitleVisibility();
             titleAppearanceAttributes.recycle();
         }
         overrideTitleStylesIfSetIndividually();
@@ -208,6 +209,7 @@ public class ChatView extends RelativeLayout {
         titleEditText.setTextColor(titleTextColor);
         titleEditText.setHintTextColor(titleHintColor);
         titleEditText.setHint(titleHintText);
+        titleEditText.setVisibility(titleVisibility);
         titleEditText.setTextSize(TypedValue.COMPLEX_UNIT_PX, titleTextSize);
     }
 
@@ -276,8 +278,8 @@ public class ChatView extends RelativeLayout {
     }
 
     private void setInputHintText() {
-        if (textAppearanceAttributes.hasValue(R.styleable.ChatView_hint)) {
-            inputHintText = attributes.getString(R.styleable.ChatView_hint);
+        if (textAppearanceAttributes.hasValue(R.styleable.ChatView_inputHintText)) {
+            inputHintText = attributes.getString(R.styleable.ChatView_inputHintText);
         }
     }
 
@@ -299,6 +301,7 @@ public class ChatView extends RelativeLayout {
         titleTextColor = ContextCompat.getColor(context, R.color.black);
         titleHintColor = ContextCompat.getColor(context, R.color.main_color_gray);
         titleHintText = context.getResources().getString(R.string.type_title);
+        titleVisibility = View.VISIBLE;
     }
 
     private void setTitleTextSize() {
@@ -320,8 +323,14 @@ public class ChatView extends RelativeLayout {
     }
 
     private void setTitleHintText() {
-        if (textAppearanceAttributes.hasValue(R.styleable.ChatView_hint)) {
-            titleHintText = attributes.getString(R.styleable.ChatView_hint);
+        if (textAppearanceAttributes.hasValue(R.styleable.ChatView_titleHintText)) {
+            titleHintText = attributes.getString(R.styleable.ChatView_titleHintText);
+        }
+    }
+
+    private void setTitleVisibility() {
+        if (textAppearanceAttributes.hasValue(R.styleable.ChatView_titleVisibility)) {
+            titleVisibility = attributes.getInt(R.styleable.ChatView_titleVisibility, View.VISIBLE);
         }
     }
 
@@ -330,6 +339,7 @@ public class ChatView extends RelativeLayout {
         titleTextColor = attributes.getColor(R.styleable.ChatView_inputTextColor, titleTextColor);
         titleHintColor = attributes.getColor(R.styleable.ChatView_inputHintColor, titleHintColor);
         titleHintText = attributes.getString(R.styleable.ChatView_titleHintText);
+        titleVisibility = attributes.getInt(R.styleable.ChatView_titleVisibility, titleVisibility);
     }
 
 
