@@ -37,8 +37,7 @@ You need to add this attribute to your root layout.
 xmlns:chatview="http://schemes.android.com/apk/res-auto"
 ```
 
-Currently there aren't many methods that can be utilized within Java code. However, the view can
-be customized from the XML file. You can still define it in your activity class as follows.
+Currently there aren't many methods that can be utilized within Java code. However, the view can be customized from the XML file. You can still define it in your activity class as follows.
 
 ```
 ChatView chatView = (ChatView) findViewById(R.id.chat_view);
@@ -96,8 +95,7 @@ The returned value will determine whether the message is sent or not.
 
 ### Receiving messages
 
-You can add received messages by using `chatView.addMessage(ChatMessage message)`, or, for multiple
-messages, `chatView.addMessages(ArrayList<ChatMessage> messages)`
+You can add received messages by using `chatView.addMessage(ChatMessage message)`, or, for multiple messages, `chatView.addMessages(ArrayList<ChatMessage> messages)`
 
 Messages will appear to the right or the left depending on the `Type` variable in your `ChatMessage` object.
 
@@ -105,16 +103,13 @@ Messages will appear to the right or the left depending on the `Type` variable i
 
 You can remove messages using `chatView.removeMessage(int position)` or `chatView.clearMessages()`
 
-### The ChatMessage class
+### The ChatMessage interface
 
-This class has these instance variables:
-`String title` message title,
-`String message` message body,
-`long timestamp` time this message was sent, and
-`Type type` has values `SENT` or `RECEIVED` which determines the side where the message appears.
+Your app should implement this interface to define its own implementation of a `Message` model. Your implementation should typically contain a variable for each getter method.
 
-It is strongly recommended to override this class to provide a model for the sending and receiving
-operations. More on this in future releases
+There is an `InternalMessage` class that implements this interface, but it is strongly recommended for you to define your own implementation, as using `InternalMessage` class might cause (at least) complexities in your code.
+
+The interface also contains the Type enum which only contains two values: `SENT`, and `RECEIVED`. I'll leave you to figure out what each means ;) .
 
 ### Typing Listener
 

@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import co.intentservice.chatui.fab.FloatingActionsMenu;
 import co.intentservice.chatui.models.ChatMessage;
 import co.intentservice.chatui.models.ChatMessage.Type;
+import co.intentservice.chatui.models.InternalMessage;
 import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
 import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
 import hani.momanii.supernova_emoji_library.Helper.EmojiconTextView;
@@ -342,7 +343,6 @@ public class ChatView extends RelativeLayout {
         titleVisibility = attributes.getInt(R.styleable.ChatView_titleVisibility, titleVisibility);
     }
 
-
     private void setupEditorAction() {
         emojiconEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         emojiconEditText.setImeOptions(EditorInfo.IME_ACTION_SEND);
@@ -453,7 +453,7 @@ public class ChatView extends RelativeLayout {
     }
 
     private void sendMessage(String message, String title, long stamp) {
-        ChatMessage chatMessage = new ChatMessage(message, title, stamp, Type.SENT);
+        ChatMessage chatMessage = new InternalMessage(message, title, stamp, Type.SENT);
         if (onSentMessageListener != null && onSentMessageListener.sendMessage(chatMessage)) {
             chatViewListAdapter.addMessage(chatMessage);
             emojiconEditText.setText("");
